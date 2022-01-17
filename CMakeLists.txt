@@ -42,8 +42,22 @@ set(THREADS_PREFER_PTHREAD_FLAG ON)
 add_definitions(${LLVM_DEFINITIONS})
 llvm_map_components_to_libnames(LLVM_LIBS core support mcjit x86codegen)
 
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -Wall -Wextra -Werror -march=native -Wno-strict-aliasing")
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -Wall -Wextra -Werror -march=native -Wno-strict-aliasing")    
+# ---------------------------------------------------------------------------
+# BISON/FLEX
+# ---------------------------------------------------------------------------
+
+find_package(BISON REQUIRED)
+find_package(FLEX REQUIRED)
+
+BISON_TARGET(mc_parser
+             mc_parser.yy
+             ${CMAKE_CURRENT_BINARY_DIR}/mc_parser.tab.cc)
+FLEX_TARGET(mc_lexer
+            mc_lexer.l
+            ${CMAKE_CURRENT_BINARY_DIR}/mc_lexer.yy.cc)
+ADD_FLEX_BISON_DEPENDENCY(mc_lexer mc_parser)
 
 # ---------------------------------------------------------------------------
 # Scripts

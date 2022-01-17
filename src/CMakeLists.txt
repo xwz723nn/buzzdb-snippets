@@ -22,6 +22,7 @@ set(
     INCLUDE_H
     ${CMAKE_SOURCE_DIR}/src/include
     ${CMAKE_SOURCE_DIR}/test/unit/include
+    ${CMAKE_SOURCE_DIR}    
 )
 
 set(
@@ -30,6 +31,8 @@ set(
     ${GTEST_INCLUDE_DIR}
     ${GFLAGS_INCLUDE_DIR}
     ${BENCHMARK_INCLUDE_DIR}
+    ${FLEX_INCLUDE_DIRS}
+    ${CMAKE_CURRENT_BINARY_DIR}
 )
 
 include_directories(
@@ -46,12 +49,18 @@ include_directories(
 
 set(SHARED_LIBRARY "buzzdb")
 
-add_library(${SHARED_LIBRARY} STATIC ${SRC_CC} ${INCLUDE_H})
+add_library(${SHARED_LIBRARY} STATIC 
+            ${SRC_CC} 
+            mc_driver.cpp
+            ${INCLUDE_H}
+			${FLEX_mc_lexer_OUTPUTS}
+    		${BISON_mc_parser_OUTPUTS}
+)
 
 target_link_libraries(
     ${SHARED_LIBRARY}
     gflags
-    Threads::Threads    
+    Threads::Threads
     ${LLVM_LIBS}
     ${LLVM_LDFLAGS}
 )
