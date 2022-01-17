@@ -42,7 +42,6 @@ set(THREADS_PREFER_PTHREAD_FLAG ON)
 add_definitions(${LLVM_DEFINITIONS})
 llvm_map_components_to_libnames(LLVM_LIBS core support mcjit x86codegen)
 
-include("${CMAKE_SOURCE_DIR}/third_party/rapidjson.cmake")
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -Wall -Wextra -Werror -march=native -Wno-strict-aliasing")    
 

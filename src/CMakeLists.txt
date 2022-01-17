@@ -30,7 +30,6 @@ set(
     ${GTEST_INCLUDE_DIR}
     ${GFLAGS_INCLUDE_DIR}
     ${BENCHMARK_INCLUDE_DIR}
-    ${RAPIDJSON_INCLUDE_DIR}
 )
 
 include_directories(
@@ -52,7 +51,6 @@ add_library(${SHARED_LIBRARY} STATIC ${SRC_CC} ${INCLUDE_H})
 target_link_libraries(
     ${SHARED_LIBRARY}
     gflags
-    rapidjson
     Threads::Threads    
     ${LLVM_LIBS}
     ${LLVM_LDFLAGS}
