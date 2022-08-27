@@ -35,12 +35,8 @@ endif()
 # ---------------------------------------------------------------------------
 
 find_package(Threads REQUIRED)
-find_package(LLVM 6.0 REQUIRED CONFIG)
 
 set(THREADS_PREFER_PTHREAD_FLAG ON)
-
-add_definitions(${LLVM_DEFINITIONS})
-llvm_map_components_to_libnames(LLVM_LIBS core support mcjit x86codegen)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -Wall -Wextra -Werror -march=native -Wno-strict-aliasing")
 
@@ -85,9 +81,6 @@ include("${CMAKE_SOURCE_DIR}/test/CMakeLists.txt")
 # ---------------------------------------------------------------------------
 
 message(STATUS "BuzzDB settings")
-message(STATUS "    LLVM_LDFLAGS                = ${LLVM_LDFLAGS}")
-message(STATUS "    LLVM_LIBS                   = ${LLVM_LIBS}")
-message(STATUS "    LLVM_INCLUDE_DIRS           = ${LLVM_INCLUDE_DIRS}")
 message(STATUS "    GFLAGS_INCLUDE_DIR          = ${GFLAGS_INCLUDE_DIR}")
 message(STATUS "    GFLAGS_LIBRARY_PATH         = ${GFLAGS_LIBRARY_PATH}")
 message(STATUS "[TEST] settings")
