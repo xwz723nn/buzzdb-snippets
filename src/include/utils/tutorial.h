@@ -1,0 +1,76 @@
+#pragma once
+
+#include <iostream>
+
+namespace buzzdb{
+namespace utils{
+
+// A class in C++ is a user-defined type that has data and functions 
+// (also called member variables and member functions)
+// The member variables are typically of built-in data types like integers
+class Course{
+public:
+    int _course_id;
+    std::string _course_name;
+
+    // Constructor is used to create a "Course" object 
+    // Default constructor
+    Course();
+
+    // There can be multiple constructors
+    Course(int course_id, std::string course_name);
+
+    // Overloading << operator for pretty printing objects of this class
+    friend std::ostream& operator<<(std::ostream& os, const Course& s);  
+
+    // Defining the == operator for objects of this class
+    friend bool operator==(const Course& course1, const Course& course2);
+};
+
+class Student{
+public:
+    int _student_id;
+    std::string _student_name;
+    Course* _courses;
+    static const int _max_number_of_courses = 5;
+    int _current_number_of_courses;
+
+    Student(int student_id, std::string student_name);
+
+    // Destructor is responsible for releasing resources
+    // like allocated memory
+    ~Student();
+
+    // function for adding a course
+    // returns true or false
+    bool add_course(const Course& course);
+
+    // function for dropping a course
+    // returns true or false
+    bool drop_course(const Course& course);
+
+    friend std::ostream& operator<<(std::ostream& os, const Student& s);
+};
+
+// Inheritance: Deriving new classes (sub classes) from existing ones such as super class or base class and then forming them into a hierarchy of classes
+class UndergradStudent: public Student{
+public:
+    int _year_in_program;
+
+    UndergradStudent(int student_id, std::string student_name, int year_in_program);
+
+    friend std::ostream& operator<<(std::ostream& os, const UndergradStudent& s);
+};
+
+class GraduateStudent: public Student {
+public:
+    int _advisor_id;
+
+    GraduateStudent(int student_id, std::string student_name, 
+        int advisor_id);
+
+    friend std::ostream& operator<<(std::ostream& os, const GraduateStudent& s);
+};
+
+}  
+} 
