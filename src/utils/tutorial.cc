@@ -4,6 +4,7 @@
 
 #include <string>
 #include <iostream>
+#include <stdexcept>
 
 #include "utils/tutorial.h"
 
@@ -26,6 +27,12 @@ Course::Course(int course_id, std::string course_name):
     _course_name(course_name){
 }
 
+Course::Course(const Course& course_being_copied):
+    _course_id(course_being_copied._course_id),
+    _course_name(course_being_copied._course_name){
+}
+
+
 std::ostream& operator <<(std::ostream& os, const Course& course)
 {
     os << "Course :: " << course._course_id << " - " << course._course_name << "\n";
@@ -37,6 +44,14 @@ bool operator==(const Course& course1, const Course& course2)
     return (course1._course_id == course2._course_id) 
         && (course1._course_name == course2._course_name);
 }
+
+Course& Course::operator=(const Course& course_being_copied){
+    _course_id = course_being_copied._course_id;
+    _course_name = course_being_copied._course_name;    
+    // return the assigned course object 
+    return *this;
+}
+
 
 //////////////////////////////////////////////////////////////////////////////
 ///// STUDENT CLASS
@@ -55,7 +70,7 @@ Student::~Student(){
 
 bool Student::add_course(const Course& course){
     if(_current_number_of_courses == _max_number_of_courses){
-        std::cout << "Student has already enrolled in max # of courses";
+        std::cout << "Student cannot enroll in more courses \n";
         return false;
     }
 
@@ -66,9 +81,17 @@ bool Student::add_course(const Course& course){
         }
     }
 
+    if(course._course_id == -1){
+        throw std::logic_error("Invalid course");
+    }
+
+    std::cout << "Course being added: " << course;
+
     // Add course
-    _current_number_of_courses += 1;
     _courses[_current_number_of_courses] = course;
+
+    // Bump up the course count
+    _current_number_of_courses += 1;
     return true;
 }
 
@@ -84,6 +107,12 @@ bool Student::drop_course(const Course& course){
 std::ostream& operator <<(std::ostream& os, const Student& student)
 {
     os << "Student :: " << student._student_id << " - " << student._student_name << "\n";
+
+    // Print courses
+    for (int i = 0; i < student._current_number_of_courses; i++){
+        os << student._courses[i];
+    }
+
     return os;
 }
 

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include <memory>
 
 namespace buzzdb{
 namespace utils{
@@ -20,11 +21,17 @@ public:
     // There can be multiple constructors
     Course(int course_id, std::string course_name);
 
+    // Copy constructor
+	Course(const Course& course_being_copied);
+
     // Overloading << operator for pretty printing objects of this class
     friend std::ostream& operator<<(std::ostream& os, const Course& s);  
 
-    // Defining the == operator for objects of this class
+    // Overloading the comparison operator for objects of this class
     friend bool operator==(const Course& course1, const Course& course2);
+
+    // Overloading the assignment operator
+	Course& operator= (const Course& course_being_copied);
 };
 
 class Student{
@@ -32,7 +39,9 @@ public:
     int _student_id;
     std::string _student_name;
     Course* _courses;
-    static const int _max_number_of_courses = 5;
+
+    // Each student can only be enrolled in three courses
+    static const int _max_number_of_courses = 3;
     int _current_number_of_courses;
 
     Student(int student_id, std::string student_name);
