@@ -1,2 +1,3 @@
-# snippets
-Code snippets
+# BuzzDB Snippets
+
+Same setup instructions as BuzzDB
